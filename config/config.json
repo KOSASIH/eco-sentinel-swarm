@@ -1,0 +1,52 @@
+{
+  "app": {
+    "name": "Eco-Sentinel-Swarm",
+    "version": "1.0.0",
+    "description": "A high-tech ecosystem monitoring and management system"
+  },
+  "database": {
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "eco_sentinel",
+    "password": "${DATABASE_PASSWORD}",
+    "database": "eco_sentinel_db"
+  },
+  "api": {
+    "host": "0.0.0.0",
+    "port": 5000,
+    "cors": {
+      "enabled": true,
+      "origins": ["*"],
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "headers": ["Content-Type", "Authorization"]
+    }
+  },
+  "security": {
+    "jwt": {
+      "secret": "${JWT_SECRET}",
+      "expires_in": 3600
+    },
+    "oauth": {
+      "client_id": "${OAUTH_CLIENT_ID}",
+      "client_secret": "${OAUTH_CLIENT_SECRET}",
+      "redirect_uri": "http://localhost:5000/oauth/callback"
+    }
+  },
+  "logging": {
+    "level": "DEBUG",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  },
+  "monitoring": {
+    "prometheus": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 9090
+    },
+    "grafana": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 3000
+    }
+  }
+}

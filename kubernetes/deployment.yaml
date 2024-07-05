@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eco-sentinel-swarm
+  labels:
+    app: eco-sentinel-swarm
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eco-sentinel-swarm
+  template:
+    metadata:
+      labels:
+        app: eco-sentinel-swarm
+    spec:
+      containers:
+      - name: eco-sentinel-swarm
+        image: eco-sentinel-swarm:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DATABASE_URL
+          value: ${DATABASE_URL}
+        - name: JWT_SECRET
+          value: ${JWT_SECRET}
+        - name: OAUTH_CLIENT_ID
+          value: ${OAUTH_CLIENT_ID}
+        - name: OAUTH_CLIENT_SECRET
+          value: ${OAUTH_CLIENT_SECRET}
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: eco-sentinel-swarm-config
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
